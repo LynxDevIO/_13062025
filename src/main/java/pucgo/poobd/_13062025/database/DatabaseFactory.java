@@ -1,4 +1,4 @@
-package pucgo.poobd._13062025;
+package pucgo.poobd._13062025.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
