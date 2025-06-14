@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pucgo.poobd._13062025.controller.ClienteDialogController"
+      spacing="10" padding="10">
+    
+    <Label text="Novo Cliente" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+    
+    <GridPane vgap="10" hgap="10">
+        <Label text="Nome Completo:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="nomeCompletoField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        
+        <Label text="CPF:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="cpfField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        
+        <Label text="Telefone:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="telefoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        
+        <Label text="Data de Nascimento:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <DatePicker fx:id="dataNascimentoPicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        
+        <Label text="Endereço:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="enderecoField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    </GridPane>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancelar" onAction="#handleCancelar" />
+        <Button text="Salvar" onAction="#handleSalvar" defaultButton="true" />
+    </HBox>
+</VBox> 
