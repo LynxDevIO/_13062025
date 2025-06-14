@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Empresa;
 import pucgo.poobd._13062025.model.Endereco;
 
@@ -17,15 +16,15 @@ public class EmpresaDAO {
     private final Connection conn;
     private final EnderecoDAO enderecoDAO;
 
-    public EmpresaDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.enderecoDAO = new EnderecoDAO();
+    public EmpresaDAO(Connection conn) {
+        this.conn = conn;
+        this.enderecoDAO = new EnderecoDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table empresa (
+                    create table if not exists empresa (
                         id integer primary key autoincrement,
                         cnpj text not null unique,
                         nome_fantasia text not null,

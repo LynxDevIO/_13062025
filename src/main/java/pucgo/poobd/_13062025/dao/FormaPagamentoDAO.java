@@ -9,22 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.FormaPagamento;
 
 public class FormaPagamentoDAO {
     private final Connection conn;
 
-    public FormaPagamentoDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
+    public FormaPagamentoDAO(Connection conn) {
+        this.conn = conn;
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table forma_de_pagamento (
+                    create table if not exists forma_pagamento (
                         id integer primary key autoincrement,
-                        nome text not null
+                        descricao text not null
                     )
                     """;
 
@@ -34,101 +33,76 @@ public class FormaPagamentoDAO {
         }
     }
 
-    public void criar(FormaPagamento formaPagamento) {
+    public void criar(FormaPagamento formaPagamento) throws SQLException {
         String sql = """
-                insert into forma_de_pagamento (nome)
+                insert into forma_pagamento (descricao)
                 values (?)
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, formaPagamento.getNome());
+            ps.setString(1, formaPagamento.getDescricao());
 
             ps.executeUpdate();
-            
+
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     formaPagamento.setId(generatedKeys.getLong(1));
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public Optional<FormaPagamento> obterPorId(long id) {
-        Optional<FormaPagamento> formaPagamentoOpt = Optional.empty();
-        String sql = """
-                select * from forma_de_pagamento where id = ?
-                """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento(
-                    rs.getLong("id"),
-                    rs.getString("nome")
-                );
-                formaPagamentoOpt = Optional.of(formaPagamento);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return formaPagamentoOpt;
-    }
-
-    public List<FormaPagamento> obterTodos() {
+    public List<FormaPagamento> obterTodos() throws SQLException {
         List<FormaPagamento> formasPagamento = new ArrayList<>();
-
-        String sql = """
-                select * from forma_de_pagamento
-                """;
-
+        String sql = "select * from forma_pagamento";
         try (Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento(
-                    rs.getLong("id"),
-                    rs.getString("nome")
-                );
+                FormaPagamento formaPagamento = new FormaPagamento();
+                formaPagamento.setId(rs.getLong("id"));
+                formaPagamento.setDescricao(rs.getString("descricao"));
                 formasPagamento.add(formaPagamento);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return formasPagamento;
     }
 
-    public void atualizarPorId(long id, FormaPagamento formaPagamento) {
+    public Optional<FormaPagamento> obterPorId(long id) throws SQLException {
+        String sql = "select * from forma_pagamento where id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                FormaPagamento formaPagamento = new FormaPagamento();
+                formaPagamento.setId(rs.getLong("id"));
+                formaPagamento.setDescricao(rs.getString("descricao"));
+                return Optional.of(formaPagamento);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public void atualizarPorId(long id, FormaPagamento formaPagamento) throws SQLException {
         String sql = """
-                update forma_de_pagamento
-                set nome = ?
+                update forma_pagamento
+                set descricao = ?
                 where id = ?
                 """;
-
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, formaPagamento.getNome());
+            ps.setString(1, formaPagamento.getDescricao());
             ps.setLong(2, id);
 
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public void deletarPorId(long id) {
+    public void deletarPorId(long id) throws SQLException {
         String sql = """
-                delete from forma_de_pagamento
+                delete from forma_pagamento
                 where id = ?
                 """;
-
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 } 

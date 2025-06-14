@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Cliente;
 import pucgo.poobd._13062025.model.Endereco;
 
@@ -20,15 +19,15 @@ public class ClienteDAO {
     private final EnderecoDAO enderecoDAO;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
-    public ClienteDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.enderecoDAO = new EnderecoDAO();
+    public ClienteDAO(Connection conn) {
+        this.conn = conn;
+        this.enderecoDAO = new EnderecoDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table cliente (
+                    create table if not exists cliente (
                         id integer primary key autoincrement,
                         nome text not null,
                         cpf text not null,

@@ -1,34 +1,48 @@
 package pucgo.poobd._13062025.view;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.stage.Modality;
-import pucgo.poobd._13062025.controller.FormaPagamentoDialogController;
-import pucgo.poobd._13062025.model.FormaPagamento;
-
+import java.sql.Connection;
 import java.util.Optional;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import pucgo.poobd._13062025.model.FormaPagamento;
+
 public class FormaPagamentoView {
-    public static Optional<FormaPagamento> showDialog() {
-        try {
-            FXMLLoader loader = new FXMLLoader(FormaPagamentoView.class.getResource("/pucgo/poobd/_13062025/view/forma-pagamento-dialog.fxml"));
-            DialogPane pane = loader.load();
-            FormaPagamentoDialogController controller = loader.getController();
-            
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setDialogPane(pane);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle("Nova Forma de Pagamento");
-            
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                return Optional.ofNullable(controller.getFormaPagamento());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static Optional<FormaPagamento> showDialog(Connection conn, FormaPagamento formaPagamento) {
+        Dialog<FormaPagamento> dialog = new Dialog<>();
+        dialog.setTitle(formaPagamento == null ? "Nova Forma de Pagamento" : "Editar Forma de Pagamento");
+        dialog.setHeaderText(null);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField descricaoField = new TextField();
+        grid.add(new Label("Descrição:"), 0, 0);
+        grid.add(descricaoField, 1, 0);
+
+        if (formaPagamento != null) {
+            descricaoField.setText(formaPagamento.getDescricao());
         }
-        return Optional.empty();
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                FormaPagamento result = formaPagamento != null ? formaPagamento : new FormaPagamento();
+                result.setDescricao(descricaoField.getText());
+                return result;
+            }
+            return null;
+        });
+
+        return dialog.showAndWait();
     }
 } 

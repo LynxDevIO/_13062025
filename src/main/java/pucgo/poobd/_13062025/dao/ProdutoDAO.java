@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Categoria;
 import pucgo.poobd._13062025.model.Fabricante;
 import pucgo.poobd._13062025.model.Produto;
@@ -21,17 +20,17 @@ public class ProdutoDAO {
     private final SubcategoriaDAO subcategoriaDAO;
     private final FabricanteDAO fabricanteDAO;
 
-    public ProdutoDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.categoriaDAO = new CategoriaDAO();
-        this.subcategoriaDAO = new SubcategoriaDAO();
-        this.fabricanteDAO = new FabricanteDAO();
+    public ProdutoDAO(Connection conn) {
+        this.conn = conn;
+        this.categoriaDAO = new CategoriaDAO(conn);
+        this.subcategoriaDAO = new SubcategoriaDAO(conn);
+        this.fabricanteDAO = new FabricanteDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table produto (
+                    create table if not exists produto (
                         id integer primary key autoincrement,
                         nome text not null,
                         descricao text,

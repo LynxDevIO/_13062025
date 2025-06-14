@@ -1,27 +1,30 @@
 package pucgo.poobd._13062025.dao;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
-import pucgo.poobd._13062025.model.Subcategoria;
-import pucgo.poobd._13062025.model.Categoria;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import pucgo.poobd._13062025.model.Categoria;
+import pucgo.poobd._13062025.model.Subcategoria;
 
 public class SubcategoriaDAO {
     private final Connection conn;
     private final CategoriaDAO categoriaDAO;
 
-    public SubcategoriaDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.categoriaDAO = new CategoriaDAO();
+    public SubcategoriaDAO(Connection conn) {
+        this.conn = conn;
+        this.categoriaDAO = new CategoriaDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table subcategoria (
+                    create table if not exists subcategoria (
                         id integer primary key autoincrement,
                         descricao text,
                         categoria_fk integer,

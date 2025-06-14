@@ -9,20 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Categoria;
 
 public class CategoriaDAO {
     private final Connection conn;
 
-    public CategoriaDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
+    public CategoriaDAO(Connection conn) {
+        this.conn = conn;
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table categoria (
+                    create table if not exists categoria (
                         id integer primary key autoincrement,
                         descricao text
                     )

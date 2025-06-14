@@ -1,27 +1,30 @@
 package pucgo.poobd._13062025.dao;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
-import pucgo.poobd._13062025.model.Fabricante;
-import pucgo.poobd._13062025.model.Endereco;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import pucgo.poobd._13062025.model.Endereco;
+import pucgo.poobd._13062025.model.Fabricante;
 
 public class FabricanteDAO {
     private final Connection conn;
     private final EnderecoDAO enderecoDAO;
 
-    public FabricanteDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.enderecoDAO = new EnderecoDAO();
+    public FabricanteDAO(Connection conn) {
+        this.conn = conn;
+        this.enderecoDAO = new EnderecoDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table fabricante (
+                    create table if not exists fabricante (
                         id integer primary key autoincrement,
                         nome text not null,
                         cnpj text not null,

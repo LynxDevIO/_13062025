@@ -1,5 +1,7 @@
 package pucgo.poobd._13062025.controller;
 
+import java.sql.Connection;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
@@ -10,17 +12,24 @@ import pucgo.poobd._13062025.model.FormaPagamento;
 
 public class FormaPagamentoDialogController {
     @FXML private DialogPane dialogPane;
-    @FXML private TextField nomeField;
+    @FXML private TextField descricaoField;
     
     private Stage dialogStage;
     private FormaPagamento formaPagamento;
     private boolean salvarClicked = false;
+    private Connection conn;
+    private FormaPagamentoDAO formaPagamentoDAO;
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+        this.formaPagamentoDAO = new FormaPagamentoDAO(conn);
+    }
 
     @FXML
     public void initialize() {
         dialogPane.lookupButton(ButtonType.OK).setDisable(true);
         
-        nomeField.textProperty().addListener((obs, oldVal, newVal) -> {
+        descricaoField.textProperty().addListener((obs, oldVal, newVal) -> {
             dialogPane.lookupButton(ButtonType.OK).setDisable(newVal.trim().isEmpty());
         });
     }
@@ -33,7 +42,7 @@ public class FormaPagamentoDialogController {
         this.formaPagamento = formaPagamento;
         
         if (formaPagamento != null) {
-            nomeField.setText(formaPagamento.getNome());
+            descricaoField.setText(formaPagamento.getDescricao());
         }
     }
 
@@ -45,10 +54,9 @@ public class FormaPagamentoDialogController {
     private void handleSalvar() {
         if (isInputValid()) {
             formaPagamento = new FormaPagamento();
-            formaPagamento.setNome(nomeField.getText());
+            formaPagamento.setDescricao(descricaoField.getText());
 
             try {
-                FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
                 formaPagamentoDAO.criar(formaPagamento);
                 salvarClicked = true;
                 dialogStage.close();
@@ -66,13 +74,17 @@ public class FormaPagamentoDialogController {
 
     private boolean isInputValid() {
         String errorMessage = "";
-        if (nomeField.getText() == null || nomeField.getText().length() == 0) {
-            errorMessage += "Nome inválido!\n";
+        if (descricaoField.getText() == null || descricaoField.getText().length() == 0) {
+            errorMessage += "Descrição inválida!\n";
         }
         return errorMessage.length() == 0;
     }
 
     public FormaPagamento getFormaPagamento() {
+        if (formaPagamento == null) {
+            formaPagamento = new FormaPagamento();
+        }
+        formaPagamento.setDescricao(descricaoField.getText());
         return formaPagamento;
     }
 } 

@@ -3,6 +3,7 @@ module pucgo.poobd._13062025 {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql;
+    requires org.xerial.sqlitejdbc;
 
 
     opens pucgo.poobd._13062025 to javafx.fxml;

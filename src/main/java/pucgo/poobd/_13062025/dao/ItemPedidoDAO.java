@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.ItemPedido;
 import pucgo.poobd._13062025.model.Pedido;
 import pucgo.poobd._13062025.model.Produto;
@@ -17,18 +16,21 @@ import pucgo.poobd._13062025.model.Produto;
 public class ItemPedidoDAO {
     private final Connection conn;
     private final ProdutoDAO produtoDAO;
-    private final PedidoDAO pedidoDAO;
+    private PedidoDAO pedidoDAO;
 
-    public ItemPedidoDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.produtoDAO = new ProdutoDAO();
-        this.pedidoDAO = new PedidoDAO();
+    public ItemPedidoDAO(Connection conn) {
+        this.conn = conn;
+        this.produtoDAO = new ProdutoDAO(conn);
+    }
+
+    public void setPedidoDAO(PedidoDAO pedidoDAO) {
+        this.pedidoDAO = pedidoDAO;
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table item_pedido (
+                    create table if not exists item_pedido (
                         id integer primary key autoincrement,
                         valor_total real not null,
                         quantidade integer not null,

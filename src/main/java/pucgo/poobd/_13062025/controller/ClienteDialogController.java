@@ -1,5 +1,7 @@
 package pucgo.poobd._13062025.controller;
 
+import java.sql.Connection;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -18,6 +20,13 @@ public class ClienteDialogController {
     private Stage dialogStage;
     private Cliente cliente;
     private boolean salvarClicked = false;
+    private Connection conn;
+    private ClienteDAO clienteDAO;
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+        this.clienteDAO = new ClienteDAO(conn);
+    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -57,7 +66,6 @@ public class ClienteDialogController {
                 cliente.setEndereco(endereco);
             }
             try {
-                ClienteDAO clienteDAO = new ClienteDAO();
                 clienteDAO.criar(cliente);
                 salvarClicked = true;
                 dialogStage.close();

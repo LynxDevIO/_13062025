@@ -4,20 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88710f35-0171-4df8-8129-64d46a171a17" name="Changes" comment="voltar ao original planejado para a classe Pedido">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/view/main-view.fxml" afterDir="false" />
+    <list default="true" id="88710f35-0171-4df8-8129-64d46a171a17" name="Changes" comment="arquivos q n foram antes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/ClienteDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/ClienteDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/EmpresaDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/EmpresaDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/FormaPagamentoDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/FormaPagamentoDialogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/CategoriaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/CategoriaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ClienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ClienteDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FabricanteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FabricanteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FormaPagamentoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FormaPagamentoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/FuncionarioDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ItemPedidoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ItemPedidoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/PedidoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/PedidoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ProdutoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ProdutoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/SubcategoriaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/SubcategoriaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/SupervisorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/SupervisorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/VendedorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/VendedorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/database/DatabaseFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/database/DatabaseFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Empresa.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/FormaPagamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/FormaPagamento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Funcionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Funcionario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Subcategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Subcategoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Supervisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Supervisor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Vendedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Vendedor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/main-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/ClienteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/ClienteView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/EmpresaView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/EmpresaView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/FormaPagamentoView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/FormaPagamentoView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/view/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/view/main-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +79,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.run.executor": "Run",
+    "Maven._13062025 [clean].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -112,7 +128,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1749850364032</updated>
-      <workItem from="1749865736008" duration="3952000" />
+      <workItem from="1749865736008" duration="6679000" />
     </task>
     <task id="LOCAL-00001" summary="voltar ao original planejado para a classe Pedido">
       <option name="closed" value="true" />
@@ -122,7 +138,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749866380261</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="foi com um erro">
+      <option name="closed" value="true" />
+      <created>1749869982613</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749869982613</updated>
+    </task>
+    <task id="LOCAL-00003" summary="arquivos q n foram antes">
+      <option name="closed" value="true" />
+      <created>1749869997028</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749869997028</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +162,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="voltar ao original planejado para a classe Pedido" />
-    <option name="LAST_COMMIT_MESSAGE" value="voltar ao original planejado para a classe Pedido" />
+    <MESSAGE value="foi com um erro" />
+    <MESSAGE value="arquivos q n foram antes" />
+    <option name="LAST_COMMIT_MESSAGE" value="arquivos q n foram antes" />
   </component>
 </project>

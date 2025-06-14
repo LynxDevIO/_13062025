@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Empresa;
 import pucgo.poobd._13062025.model.Endereco;
 import pucgo.poobd._13062025.model.Supervisor;
@@ -21,17 +20,17 @@ public class VendedorDAO {
     private final EmpresaDAO empresaDAO;
     private final SupervisorDAO supervisorDAO;
 
-    public VendedorDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.enderecoDAO = new EnderecoDAO();
-        this.empresaDAO = new EmpresaDAO();
-        this.supervisorDAO = new SupervisorDAO();
+    public VendedorDAO(Connection conn) {
+        this.conn = conn;
+        this.enderecoDAO = new EnderecoDAO(conn);
+        this.empresaDAO = new EmpresaDAO(conn);
+        this.supervisorDAO = new SupervisorDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table vendedor (
+                    create table if not exists vendedor (
                         id integer primary key autoincrement,
                         id_vendedor integer not null,
                         nome text not null,

@@ -7,21 +7,35 @@ import java.util.Properties;
 
 public class DatabaseFactory {
 
-    private static final String URL = "jdbc:sqlite:atividade_db";
+    private static final String URL = "jdbc:sqlite:atividade.db";
+    private static Connection connection;
 
     private DatabaseFactory() {
     }
 
     public static Connection getConnection() throws SQLException {
-        try {
-            Class.forName("org.sqlite.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("Driver SQLite não encontrado.", e);
+        if (connection == null || connection.isClosed()) {
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException e) {
+                throw new SQLException("Driver SQLite não encontrado.", e);
+            }
+
+            Properties props = new Properties();
+            props.setProperty("ssl", "false");
+
+            connection = DriverManager.getConnection(URL, props);
         }
+        return connection;
+    }
 
-        Properties props = new Properties();
-        props.setProperty("ssl", "false");
-
-        return DriverManager.getConnection(URL, props);
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

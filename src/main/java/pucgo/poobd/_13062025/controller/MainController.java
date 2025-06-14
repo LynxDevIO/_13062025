@@ -1,319 +1,363 @@
 package pucgo.poobd._13062025.controller;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Optional;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.PropertyValueFactory;
 import pucgo.poobd._13062025.dao.ClienteDAO;
 import pucgo.poobd._13062025.dao.EmpresaDAO;
 import pucgo.poobd._13062025.dao.FormaPagamentoDAO;
 import pucgo.poobd._13062025.dao.PedidoDAO;
-import pucgo.poobd._13062025.dao.ProdutoDAO;
+import pucgo.poobd._13062025.dao.VendedorDAO;
 import pucgo.poobd._13062025.model.Cliente;
 import pucgo.poobd._13062025.model.Empresa;
-import pucgo.poobd._13062025.model.Endereco;
 import pucgo.poobd._13062025.model.FormaPagamento;
-import pucgo.poobd._13062025.model.ItemPedido;
 import pucgo.poobd._13062025.model.Pedido;
-import pucgo.poobd._13062025.model.Produto;
 import pucgo.poobd._13062025.model.Vendedor;
 import pucgo.poobd._13062025.view.ClienteView;
 import pucgo.poobd._13062025.view.EmpresaView;
 import pucgo.poobd._13062025.view.FormaPagamentoView;
+import pucgo.poobd._13062025.view.PedidoView;
+import pucgo.poobd._13062025.view.VendedorView;
+import javafx.beans.property.SimpleStringProperty;
 
 public class MainController {
-    @FXML private ComboBox<Empresa> empresaComboBox;
-    @FXML private VBox mainContent;
-    @FXML private VBox supervisorContent;
-    @FXML private ComboBox<Cliente> clienteComboBox;
-    @FXML private ComboBox<Produto> produtoComboBox;
-    @FXML private TextField quantidadeField;
-    @FXML private TableView<ItemPedido> produtosTable;
-    @FXML private TableColumn<ItemPedido, String> produtoColumn;
-    @FXML private TableColumn<ItemPedido, Long> quantidadeColumn;
-    @FXML private TableColumn<ItemPedido, Double> valorUnitarioColumn;
-    @FXML private TableColumn<ItemPedido, Double> valorTotalColumn;
-    @FXML private ComboBox<FormaPagamento> formaPagamentoComboBox;
-    @FXML private Label totalLabel;
-    @FXML private ComboBox<String> filtroComboBox;
-    @FXML private TableView<Pedido> pedidosTable;
-    @FXML private TableColumn<Pedido, Long> idColumn;
-    @FXML private TableColumn<Pedido, String> clienteColumn;
+    @FXML private TableView<Pedido> pedidoTable;
+    @FXML private TableColumn<Pedido, Long> idColumnPedido;
+    @FXML private TableColumn<Pedido, String> empresaColumnPedido;
+    @FXML private TableColumn<Pedido, String> clienteColumnPedido;
+    @FXML private TableColumn<Pedido, String> vendedorColumnPedido;
+    @FXML private TableColumn<Pedido, String> descricaoColumnPedido;
+    @FXML private TableColumn<Pedido, Boolean> aprovadoColumnPedido;
     @FXML private TableColumn<Pedido, Double> valorTotalColumnPedido;
-    @FXML private TableColumn<Pedido, String> statusColumn;
-    @FXML private TableColumn<Pedido, Void> acoesColumn;
-    @FXML private TextField limiteAprovacaoField;
 
-    private final ObservableList<ItemPedido> itensPedido = FXCollections.observableArrayList();
-    private Empresa empresaSelecionada;
-    private Vendedor vendedorAtual;
-    private double limiteAprovacao = 1000.0;
+    @FXML private TableView<Empresa> empresaTable;
+    @FXML private TableColumn<Empresa, Long> idColumnEmpresa;
+    @FXML private TableColumn<Empresa, String> nomeColumnEmpresa;
+    @FXML private TableColumn<Empresa, String> cnpjColumnEmpresa;
+    @FXML private TableColumn<Empresa, String> nomeFantasiaColumnEmpresa;
+    @FXML private TableColumn<Empresa, String> razaoSocialColumnEmpresa;
+
+    @FXML private TableView<Cliente> clienteTable;
+    @FXML private TableColumn<Cliente, Long> idColumnCliente;
+    @FXML private TableColumn<Cliente, String> nomeColumnCliente;
+    @FXML private TableColumn<Cliente, String> cpfColumnCliente;
+    @FXML private TableColumn<Cliente, String> telefoneColumnCliente;
+
+    @FXML private TableView<Vendedor> vendedorTable;
+    @FXML private TableColumn<Vendedor, Long> idColumnVendedor;
+    @FXML private TableColumn<Vendedor, String> nomeColumnVendedor;
+    @FXML private TableColumn<Vendedor, String> cpfColumnVendedor;
+    @FXML private TableColumn<Vendedor, String> telefoneColumnVendedor;
+    @FXML private TableColumn<Vendedor, String> empresaColumnVendedor;
+    @FXML private TableColumn<Vendedor, String> supervisorColumnVendedor;
+
+    @FXML private TableView<FormaPagamento> formaPagamentoTable;
+    @FXML private TableColumn<FormaPagamento, Long> idColumnFormaPagamento;
+    @FXML private TableColumn<FormaPagamento, String> descricaoColumnFormaPagamento;
+
+    private Connection conn;
+    private PedidoDAO pedidoDAO;
+    private EmpresaDAO empresaDAO;
+    private ClienteDAO clienteDAO;
+    private VendedorDAO vendedorDAO;
+    private FormaPagamentoDAO formaPagamentoDAO;
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+        this.pedidoDAO = new PedidoDAO(conn);
+        this.empresaDAO = new EmpresaDAO(conn);
+        this.clienteDAO = new ClienteDAO(conn);
+        this.vendedorDAO = new VendedorDAO(conn);
+        this.formaPagamentoDAO = new FormaPagamentoDAO(conn);
+        
+        // Initialize tables after DAOs are set up
+        atualizarTabelaPedido();
+        atualizarTabelaEmpresa();
+        atualizarTabelaCliente();
+        atualizarTabelaVendedor();
+        atualizarTabelaFormaPagamento();
+    }
 
     @FXML
     public void initialize() {
-        try {
-            EmpresaDAO empresaDAO = new EmpresaDAO();
-            ClienteDAO clienteDAO = new ClienteDAO();
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
-            PedidoDAO pedidoDAO = new PedidoDAO();
+        // Configurar colunas do Pedido
+        idColumnPedido.setCellValueFactory(new PropertyValueFactory<>("id"));
+        empresaColumnPedido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmpresa().getNome()));
+        clienteColumnPedido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCliente().getNome()));
+        vendedorColumnPedido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVendedor().getNome()));
+        descricaoColumnPedido.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        aprovadoColumnPedido.setCellValueFactory(new PropertyValueFactory<>("aprovado"));
+        valorTotalColumnPedido.setCellValueFactory(new PropertyValueFactory<>("valorTotal"));
 
-            // INÍCIO -- código gerado com IA
-            empresaComboBox.setItems(FXCollections.observableArrayList(empresaDAO.obterTodos()));
-            clienteComboBox.setItems(FXCollections.observableArrayList(clienteDAO.obterTodos()));
-            produtoComboBox.setItems(FXCollections.observableArrayList(produtoDAO.obterTodos()));
-            formaPagamentoComboBox.setItems(FXCollections.observableArrayList(formaPagamentoDAO.obterTodos()));
+        // Configurar colunas da Empresa
+        idColumnEmpresa.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomeColumnEmpresa.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        cnpjColumnEmpresa.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
+        nomeFantasiaColumnEmpresa.setCellValueFactory(new PropertyValueFactory<>("nomeFantasia"));
+        razaoSocialColumnEmpresa.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
 
-            empresaComboBox.setOnAction(e -> handleEmpresaSelecionada());
-            
-            produtosTable.setItems(itensPedido);
-            produtoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduto().getNome()));
-            quantidadeColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getQuantidade()).asObject());
-            valorUnitarioColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getProduto().getValorUnitario()).asObject());
-            valorTotalColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getValorTotal()).asObject());
+        // Configurar colunas do Cliente
+        idColumnCliente.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomeColumnCliente.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        cpfColumnCliente.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        telefoneColumnCliente.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
-            filtroComboBox.setItems(FXCollections.observableArrayList("Todos", "Aguardando Aprovação"));
-            filtroComboBox.getSelectionModel().selectFirst();
+        // Configurar colunas do Vendedor
+        idColumnVendedor.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomeColumnVendedor.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        cpfColumnVendedor.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        telefoneColumnVendedor.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        empresaColumnVendedor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmpresa().getNome()));
+        supervisorColumnVendedor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSupervisor().getNome()));
 
-            idColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject());
-            clienteColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCliente().getNome()));
-            valorTotalColumnPedido.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getValorTotal()).asObject());
-            statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isAprovado() ? "Aprovado" : "Pendente"));
-            // FIM -- código gerado com IA
-            
-            acoesColumn.setCellFactory(col -> new TableCell<>() {
-                private final Button aprovarButton = new Button("Aprovar");
-                {
-                    aprovarButton.setOnAction(e -> {
-                        Pedido pedido = getTableView().getItems().get(getIndex());
-                        handleAprovarPedido(pedido);
-                    });
-                }
+        // Configurar colunas da Forma de Pagamento
+        idColumnFormaPagamento.setCellValueFactory(new PropertyValueFactory<>("id"));
+        descricaoColumnFormaPagamento.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+    }
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setGraphic(empty ? null : aprovarButton);
+    @FXML
+    private void handleNovoPedido() {
+        Optional<Pedido> novoPedido = PedidoView.showDialog(conn);
+        novoPedido.ifPresent(pedido -> {
+            try {
+                pedidoDAO.criar(pedido);
+                atualizarTabelaPedido();
+            } catch (SQLException e) {
+                showError("Erro ao criar pedido", e.getMessage());
+            }
+        });
+    }
+
+    @FXML
+    private void handleEditarPedido() {
+        Pedido pedidoSelecionado = pedidoTable.getSelectionModel().getSelectedItem();
+        if (pedidoSelecionado != null) {
+            Optional<Pedido> pedidoEditado = PedidoView.showDialog(conn, pedidoSelecionado);
+            pedidoEditado.ifPresent(pedido -> {
+                try {
+                    pedidoDAO.atualizarPorId(pedidoSelecionado.getId(), pedido);
+                    atualizarTabelaPedido();
+                } catch (SQLException e) {
+                    showError("Erro ao editar pedido", e.getMessage());
                 }
             });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Erro ao inicializar", e.getMessage());
         }
     }
 
     @FXML
-    private void handleEmpresaSelecionada() {
-        empresaSelecionada = empresaComboBox.getValue();
-        if (empresaSelecionada != null) {
-            mainContent.setVisible(true);
-            vendedorAtual = new Vendedor(
-                1L,
-                "Vendedor Teste",
-                "123.456.789-00",
-                "123456789",
-                new Endereco(),
-                empresaSelecionada,
-                5L,
-                null
-            );
-            if (vendedorAtual.getSupervisor() != null) {
-                supervisorContent.setVisible(true);
-                atualizarTabelaPedidos();
+    private void handleExcluirPedido() {
+        Pedido pedidoSelecionado = pedidoTable.getSelectionModel().getSelectedItem();
+        if (pedidoSelecionado != null) {
+            try {
+                pedidoDAO.deletarPorId(pedidoSelecionado.getId());
+                atualizarTabelaPedido();
+            } catch (SQLException e) {
+                showError("Erro ao excluir pedido", e.getMessage());
             }
         }
     }
 
     @FXML
     private void handleNovaEmpresa() {
-        try {
-            Optional<Empresa> novaEmpresa = EmpresaView.showDialog();
-            if (novaEmpresa.isPresent()) {
-                EmpresaDAO empresaDAO = new EmpresaDAO();
-                empresaDAO.criar(novaEmpresa.get());
-                empresaComboBox.getItems().add(novaEmpresa.get());
-                empresaComboBox.setValue(novaEmpresa.get());
+        Optional<Empresa> novaEmpresa = EmpresaView.showDialog(conn, null);
+        novaEmpresa.ifPresent(empresa -> {
+            try {
+                empresaDAO.criar(empresa);
+                atualizarTabelaEmpresa();
+            } catch (SQLException e) {
+                showError("Erro ao criar empresa", e.getMessage());
             }
-        } catch (Exception e) {
-            showError("Erro", "Erro ao criar empresa");
+        });
+    }
+
+    @FXML
+    private void handleEditarEmpresa() {
+        Empresa empresaSelecionada = empresaTable.getSelectionModel().getSelectedItem();
+        if (empresaSelecionada != null) {
+            Optional<Empresa> empresaEditada = EmpresaView.showDialog(conn, empresaSelecionada);
+            empresaEditada.ifPresent(empresa -> {
+                try {
+                    empresaDAO.atualizarPorId(empresaSelecionada.getId(), empresa);
+                    atualizarTabelaEmpresa();
+                } catch (SQLException e) {
+                    showError("Erro ao editar empresa", e.getMessage());
+                }
+            });
+        }
+    }
+
+    @FXML
+    private void handleExcluirEmpresa() {
+        Empresa empresaSelecionada = empresaTable.getSelectionModel().getSelectedItem();
+        if (empresaSelecionada != null) {
+            try {
+                empresaDAO.deletarPorId(empresaSelecionada.getId());
+                atualizarTabelaEmpresa();
+            } catch (SQLException e) {
+                showError("Erro ao excluir empresa", e.getMessage());
+            }
         }
     }
 
     @FXML
     private void handleNovoCliente() {
-        try {
-            Optional<Cliente> novoCliente = ClienteView.showDialog();
-            if (novoCliente.isPresent()) {
-                ClienteDAO clienteDAO = new ClienteDAO();
-                clienteDAO.criar(novoCliente.get());
-                clienteComboBox.getItems().add(novoCliente.get());
-                clienteComboBox.setValue(novoCliente.get());
+        Optional<Cliente> novoCliente = ClienteView.showDialog(conn, null);
+        novoCliente.ifPresent(cliente -> {
+            clienteDAO.criar(cliente);
+            atualizarTabelaCliente();
+        });
+    }
+
+    @FXML
+    private void handleEditarCliente() {
+        Cliente clienteSelecionado = clienteTable.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado != null) {
+            Optional<Cliente> clienteEditado = ClienteView.showDialog(conn, clienteSelecionado);
+            clienteEditado.ifPresent(cliente -> {
+                clienteDAO.atualizarPorId(clienteSelecionado.getId(), cliente);
+                atualizarTabelaCliente();
+            });
+        }
+    }
+
+    @FXML
+    private void handleExcluirCliente() {
+        Cliente clienteSelecionado = clienteTable.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado != null) {
+            clienteDAO.deletarPorId(clienteSelecionado.getId());
+            atualizarTabelaCliente();
+        }
+    }
+
+    @FXML
+    private void handleNovoVendedor() {
+        Optional<Vendedor> novoVendedor = VendedorView.showDialog(conn, null);
+        novoVendedor.ifPresent(vendedor -> {
+            try {
+                vendedorDAO.criar(vendedor);
+                atualizarTabelaVendedor();
+            } catch (SQLException e) {
+                showError("Erro ao criar vendedor", e.getMessage());
             }
-        } catch (Exception e) {
-            showError("Erro", "Erro ao criar cliente");
+        });
+    }
+
+    @FXML
+    private void handleEditarVendedor() {
+        Vendedor vendedorSelecionado = vendedorTable.getSelectionModel().getSelectedItem();
+        if (vendedorSelecionado != null) {
+            Optional<Vendedor> vendedorEditado = VendedorView.showDialog(conn, vendedorSelecionado);
+            vendedorEditado.ifPresent(vendedor -> {
+                try {
+                    vendedorDAO.atualizarPorId(vendedorSelecionado.getId(), vendedor);
+                    atualizarTabelaVendedor();
+                } catch (SQLException e) {
+                    showError("Erro ao editar vendedor", e.getMessage());
+                }
+            });
+        }
+    }
+
+    @FXML
+    private void handleExcluirVendedor() {
+        Vendedor vendedorSelecionado = vendedorTable.getSelectionModel().getSelectedItem();
+        if (vendedorSelecionado != null) {
+            try {
+                vendedorDAO.deletarPorId(vendedorSelecionado.getId());
+                atualizarTabelaVendedor();
+            } catch (SQLException e) {
+                showError("Erro ao excluir vendedor", e.getMessage());
+            }
         }
     }
 
     @FXML
     private void handleNovaFormaPagamento() {
-        try {
-            Optional<FormaPagamento> novaFormaPagamento = FormaPagamentoView.showDialog();
-            if (novaFormaPagamento.isPresent()) {
-                FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
-                formaPagamentoDAO.criar(novaFormaPagamento.get());
-                formaPagamentoComboBox.getItems().add(novaFormaPagamento.get());
-                formaPagamentoComboBox.setValue(novaFormaPagamento.get());
+        Optional<FormaPagamento> novaFormaPagamento = FormaPagamentoView.showDialog(conn, null);
+        novaFormaPagamento.ifPresent(formaPagamento -> {
+            try {
+                formaPagamentoDAO.criar(formaPagamento);
+                atualizarTabelaFormaPagamento();
+            } catch (SQLException e) {
+                showError("Erro ao criar forma de pagamento", e.getMessage());
             }
-        } catch (Exception e) {
-            showError("Erro", "Erro ao criar forma de pagamento");
+        });
+    }
+
+    @FXML
+    private void handleEditarFormaPagamento() {
+        FormaPagamento formaPagamentoSelecionada = formaPagamentoTable.getSelectionModel().getSelectedItem();
+        if (formaPagamentoSelecionada != null) {
+            Optional<FormaPagamento> formaPagamentoEditada = FormaPagamentoView.showDialog(conn, formaPagamentoSelecionada);
+            formaPagamentoEditada.ifPresent(formaPagamento -> {
+                try {
+                    formaPagamentoDAO.atualizarPorId(formaPagamentoSelecionada.getId(), formaPagamento);
+                    atualizarTabelaFormaPagamento();
+                } catch (SQLException e) {
+                    showError("Erro ao editar forma de pagamento", e.getMessage());
+                }
+            });
         }
     }
 
     @FXML
-    private void handleAdicionarProduto() {
-        try {
-            Produto produto = produtoComboBox.getValue();
-            long quantidade = Long.parseLong(quantidadeField.getText());
-            
-            if (produto != null && quantidade > 0) {
-                ItemPedido item = new ItemPedido(0, produto, null, quantidade, produto.getValorUnitario() * quantidade);
-                itensPedido.add(item);
-                atualizarTotal();
-                quantidadeField.clear();
+    private void handleExcluirFormaPagamento() {
+        FormaPagamento formaPagamentoSelecionada = formaPagamentoTable.getSelectionModel().getSelectedItem();
+        if (formaPagamentoSelecionada != null) {
+            try {
+                formaPagamentoDAO.deletarPorId(formaPagamentoSelecionada.getId());
+                atualizarTabelaFormaPagamento();
+            } catch (SQLException e) {
+                showError("Erro ao excluir forma de pagamento", e.getMessage());
             }
-        } catch (NumberFormatException e) {
-            showError("Erro", "Quantidade inválida");
         }
     }
 
-    @FXML
-    private void handleRegistrarPedido() {
+    private void atualizarTabelaPedido() {
         try {
-            Cliente cliente = clienteComboBox.getValue();
-            FormaPagamento formaPagamento = formaPagamentoComboBox.getValue();
-            
-            if (cliente == null || formaPagamento == null || itensPedido.isEmpty()) {
-                showError("Erro", "Preencha todos os campos");
-                return;
-            }
-
-            Pedido pedido = new Pedido();
-            pedido.setEmpresa(empresaSelecionada);
-            pedido.setVendedor(vendedorAtual);
-            pedido.setCliente(cliente);
-            pedido.setFormaPagamento(formaPagamento);
-            pedido.setItens(itensPedido);
-            pedido.setValorTotal(calcularTotal());
-            pedido.setAprovado(calcularTotal() <= limiteAprovacao);
-
-            PedidoDAO pedidoDAO = new PedidoDAO();
-            pedidoDAO.criar(pedido);
-
-            limparFormulario();
-            showInfo("Sucesso", "Pedido registrado com sucesso");
-            
-            if (vendedorAtual.getSupervisor() != null) {
-                atualizarTabelaPedidos();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Erro", "Erro ao registrar pedido");
+            pedidoTable.getItems().setAll(pedidoDAO.obterTodos());
+        } catch (SQLException e) {
+            showError("Erro ao atualizar tabela de pedidos", e.getMessage());
         }
     }
 
-    @FXML
-    private void handleAtualizarPedidos() {
-        atualizarTabelaPedidos();
-    }
-
-    @FXML
-    private void handleDefinirLimite() {
+    private void atualizarTabelaEmpresa() {
         try {
-            double novoLimite = Double.parseDouble(limiteAprovacaoField.getText());
-            if (novoLimite > 0) {
-                limiteAprovacao = novoLimite;
-                showInfo("Sucesso", "Limite atualizado com sucesso");
-            } else {
-                showError("Erro", "Limite deve ser maior que zero");
-            }
-        } catch (NumberFormatException e) {
-            showError("Erro", "Valor inválido");
+            empresaTable.getItems().setAll(empresaDAO.obterTodos());
+        } catch (SQLException e) {
+            showError("Erro ao atualizar tabela de empresas", e.getMessage());
         }
     }
 
-    private void handleAprovarPedido(Pedido pedido) {
+    private void atualizarTabelaCliente() {
+        clienteTable.getItems().setAll(clienteDAO.obterTodos());
+    }
+
+    private void atualizarTabelaVendedor() {
         try {
-            pedido.setAprovado(true);
-            PedidoDAO pedidoDAO = new PedidoDAO();
-            pedidoDAO.atualizarPorId(pedido.getId(), pedido);
-            atualizarTabelaPedidos();
-            showInfo("Sucesso", "Pedido aprovado com sucesso");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Erro", "Erro ao aprovar pedido");
+            vendedorTable.getItems().setAll(vendedorDAO.obterTodos());
+        } catch (SQLException e) {
+            showError("Erro ao atualizar tabela de vendedores", e.getMessage());
         }
     }
 
-    private void atualizarTabelaPedidos() {
+    private void atualizarTabelaFormaPagamento() {
         try {
-            PedidoDAO pedidoDAO = new PedidoDAO();
-            List<Pedido> pedidos = pedidoDAO.obterTodos();
-            
-            if (filtroComboBox.getValue().equals("Aguardando Aprovação")) {
-                pedidos = pedidos.stream()
-                    .filter(p -> !p.isAprovado())
-                    .toList();
-            }
-            
-            pedidosTable.setItems(FXCollections.observableArrayList(pedidos));
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Erro", "Erro ao atualizar tabela de pedidos");
+            formaPagamentoTable.getItems().setAll(formaPagamentoDAO.obterTodos());
+        } catch (SQLException e) {
+            showError("Erro ao atualizar tabela de formas de pagamento", e.getMessage());
         }
-    }
-
-    private void atualizarTotal() {
-        totalLabel.setText(String.format("Total: R$ %.2f", calcularTotal()));
-    }
-
-    private double calcularTotal() {
-        return itensPedido.stream()
-            .mapToDouble(ItemPedido::getValorTotal)
-            .sum();
-    }
-
-    private void limparFormulario() {
-        clienteComboBox.setValue(null);
-        formaPagamentoComboBox.setValue(null);
-        itensPedido.clear();
-        atualizarTotal();
     }
 
     private void showError(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void showInfo(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);

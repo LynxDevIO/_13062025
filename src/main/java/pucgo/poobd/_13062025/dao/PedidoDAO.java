@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Cliente;
 import pucgo.poobd._13062025.model.Empresa;
 import pucgo.poobd._13062025.model.FormaPagamento;
@@ -23,21 +22,24 @@ public class PedidoDAO {
     private final VendedorDAO vendedorDAO;
     private final ClienteDAO clienteDAO;
     private final FormaPagamentoDAO formaPagamentoDAO;
-    private final ItemPedidoDAO itemPedidoDAO;
+    private ItemPedidoDAO itemPedidoDAO;
 
-    public PedidoDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.empresaDAO = new EmpresaDAO();
-        this.vendedorDAO = new VendedorDAO();
-        this.clienteDAO = new ClienteDAO();
-        this.formaPagamentoDAO = new FormaPagamentoDAO();
-        this.itemPedidoDAO = new ItemPedidoDAO();
+    public PedidoDAO(Connection conn) {
+        this.conn = conn;
+        this.empresaDAO = new EmpresaDAO(conn);
+        this.vendedorDAO = new VendedorDAO(conn);
+        this.clienteDAO = new ClienteDAO(conn);
+        this.formaPagamentoDAO = new FormaPagamentoDAO(conn);
+    }
+
+    public void setItemPedidoDAO(ItemPedidoDAO itemPedidoDAO) {
+        this.itemPedidoDAO = itemPedidoDAO;
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table pedido (
+                    create table if not exists pedido (
                         id integer primary key autoincrement,
                         empresa_id integer,
                         vendedor_id integer,

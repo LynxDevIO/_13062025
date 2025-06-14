@@ -2,6 +2,7 @@ package pucgo.poobd._13062025.model;
 
 public class Empresa {
     private long id;
+    private String nome;
     private String cnpj;
     private String nomeFantasia;
     private String razaoSocial;
@@ -10,8 +11,9 @@ public class Empresa {
     public Empresa() {
     }
 
-    public Empresa(long id, String cnpj, String nomeFantasia, String razaoSocial, Endereco endereco) {
+    public Empresa(long id, String nome, String cnpj, String nomeFantasia, String razaoSocial, Endereco endereco) {
         this.id = id;
+        this.nome = nome;
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.razaoSocial = razaoSocial;
@@ -24,6 +26,14 @@ public class Empresa {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCnpj() {

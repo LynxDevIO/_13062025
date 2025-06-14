@@ -1,5 +1,7 @@
 package pucgo.poobd._13062025.controller;
 
+import java.sql.Connection;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -15,6 +17,13 @@ public class EmpresaDialogController {
     private Stage dialogStage;
     private Empresa empresa;
     private boolean salvarClicked = false;
+    private Connection conn;
+    private EmpresaDAO empresaDAO;
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+        this.empresaDAO = new EmpresaDAO(conn);
+    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -50,7 +59,6 @@ public class EmpresaDialogController {
                 empresa.setEndereco(endereco);
             }
             try {
-                EmpresaDAO empresaDAO = new EmpresaDAO();
                 empresaDAO.criar(empresa);
                 salvarClicked = true;
                 dialogStage.close();

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
 import pucgo.poobd._13062025.model.Endereco;
 import pucgo.poobd._13062025.model.Funcionario;
 import pucgo.poobd._13062025.model.Vendedor;
@@ -18,15 +17,15 @@ public class FuncionarioDAO {
     private final Connection conn;
     private final EnderecoDAO enderecoDAO;
 
-    public FuncionarioDAO() throws SQLException {
-        this.conn = DatabaseFactory.getConnection();
-        this.enderecoDAO = new EnderecoDAO();
+    public FuncionarioDAO(Connection conn) {
+        this.conn = conn;
+        this.enderecoDAO = new EnderecoDAO(conn);
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table Funcionario (
+                    create table if not exists funcionario (
                         id integer primary key autoincrement,
                         nome text not null,
                         cpf text not null,
