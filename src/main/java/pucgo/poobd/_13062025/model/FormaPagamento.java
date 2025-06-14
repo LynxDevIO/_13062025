@@ -2,14 +2,14 @@ package pucgo.poobd._13062025.model;
 
 public class FormaPagamento {
     private long id;
-    private String descricao;
+    private String nome;
 
     public FormaPagamento() {
     }
 
-    public FormaPagamento(long id, String descricao) {
+    public FormaPagamento(long id, String nome) {
         this.id = id;
-        this.descricao = descricao;
+        this.nome = nome;
     }
 
     public long getId() {
@@ -20,11 +20,11 @@ public class FormaPagamento {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

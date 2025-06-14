@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pucgo.poobd._13062025.controller.MainController"
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    
+    <!-- Empresa Selection -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Empresa:" />
+        <ComboBox fx:id="empresaComboBox" prefWidth="200" />
+        <Button text="Nova Empresa" onAction="#handleNovaEmpresa" />
+    </HBox>
+
+    <!-- Main Content (initially hidden) -->
+    <VBox fx:id="mainContent" spacing="10" visible="false">
+        <!-- Cliente Selection -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Cliente:" />
+            <ComboBox fx:id="clienteComboBox" prefWidth="200" />
+            <Button text="Novo Cliente" onAction="#handleNovoCliente" />
+        </HBox>
+
+        <!-- Produtos Selection -->
+        <VBox spacing="5">
+            <Label text="Produtos:" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="produtoComboBox" prefWidth="200" />
+                <TextField fx:id="quantidadeField" prefWidth="100" promptText="Quantidade" />
+                <Button text="Adicionar" onAction="#handleAdicionarProduto" />
+            </HBox>
+            <TableView fx:id="produtosTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="produtoColumn" text="Produto" />
+                    <TableColumn fx:id="quantidadeColumn" text="Quantidade" />
+                    <TableColumn fx:id="valorUnitarioColumn" text="Valor Unitário" />
+                    <TableColumn fx:id="valorTotalColumn" text="Valor Total" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Forma de Pagamento -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Forma de Pagamento:" />
+            <ComboBox fx:id="formaPagamentoComboBox" prefWidth="200" />
+            <Button text="Nova Forma" onAction="#handleNovaFormaPagamento" />
+        </HBox>
+
+        <!-- Total e Botões -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Label text="Total:" />
+            <Label fx:id="totalLabel" text="R$ 0,00" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Registrar Pedido" onAction="#handleRegistrarPedido" />
+        </HBox>
+    </VBox>
+
+    <!-- Supervisor Content (initially hidden) -->
+    <VBox fx:id="supervisorContent" spacing="10" visible="false">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Filtrar:" />
+            <ComboBox fx:id="filtroComboBox" prefWidth="200" />
+            <Button text="Atualizar" onAction="#handleAtualizarPedidos" />
+        </HBox>
+
+        <TableView fx:id="pedidosTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" />
+                <TableColumn fx:id="clienteColumn" text="Cliente" />
+                <TableColumn fx:id="valorTotalColumn" text="Valor Total" />
+                <TableColumn fx:id="statusColumn" text="Status" />
+                <TableColumn fx:id="acoesColumn" text="Ações" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Limite de Aprovação:" />
+            <TextField fx:id="limiteAprovacaoField" prefWidth="100" />
+            <Button text="Definir Limite" onAction="#handleDefinirLimite" />
+        </HBox>
+    </VBox>
+</VBox>

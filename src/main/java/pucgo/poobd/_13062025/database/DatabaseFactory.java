@@ -14,9 +14,9 @@ public class DatabaseFactory {
 
     public static Connection getConnection() throws SQLException {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("Driver PostgreSQL não encontrado.", e);
+            throw new SQLException("Driver SQLite não encontrado.", e);
         }
 
         Properties props = new Properties();

@@ -4,40 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88710f35-0171-4df8-8129-64d46a171a17" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EmpresaDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ItemPedidoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/PedidoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/database/DatabaseFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Categoria.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Empresa.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Endereco.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Fabricante.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/FormaPagamento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Funcionario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/ItemPedido.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Pedido.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Produto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Subcategoria.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Supervisor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Vendedor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/view/MainView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/main-view.fxml" afterDir="false" />
+    <list default="true" id="88710f35-0171-4df8-8129-64d46a171a17" name="Changes" comment="voltar ao original planejado para a classe Pedido">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/view/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ItemPedidoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/ItemPedidoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/PedidoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/dao/PedidoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/FormaPagamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/FormaPagamento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Funcionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Funcionario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Subcategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Subcategoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Supervisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Supervisor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Vendedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pucgo/poobd/_13062025/model/Vendedor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pucgo/poobd/_13062025/main-view.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +34,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "LynxDevIO"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/LynxDevIO/_13062025",
+    "accountId": "f4fa2167-6f10-4f60-b83f-940a1b82b06b"
+  }
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -61,22 +53,29 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2yTErIy1d5OTj2admTGq46GcjpN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.run.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Program Files (x86)/Oracle/JavaFX Scene Builder 2.0/JavaFX Scene Builder 2.0.exe"
+    "last_opened_file_path": "C:/Program Files (x86)/Oracle/JavaFX Scene Builder 2.0/JavaFX Scene Builder 2.0.exe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -84,6 +83,26 @@
       <recent name="pucgo.poobd._13062025.dao" />
       <recent name="pucgo.poobd._13062025.model" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Philipe\IdeaProjects\_13062025\src\main\resources\pucgo\poobd\_13062025\view" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="run" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="pucgo.poobd._13062025.Main" />
+      <module name="_13062025" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -93,7 +112,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1749850364032</updated>
+      <workItem from="1749865736008" duration="3952000" />
     </task>
+    <task id="LOCAL-00001" summary="voltar ao original planejado para a classe Pedido">
+      <option name="closed" value="true" />
+      <created>1749866380261</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1749866380261</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="voltar ao original planejado para a classe Pedido" />
+    <option name="LAST_COMMIT_MESSAGE" value="voltar ao original planejado para a classe Pedido" />
   </component>
 </project>

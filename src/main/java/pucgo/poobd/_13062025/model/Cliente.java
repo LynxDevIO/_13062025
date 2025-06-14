@@ -4,22 +4,24 @@ import java.time.LocalDate;
 
 public class Cliente {
     private long id;
+    private String nome;
     private String cpf;
-    private String nomeCompleto;
     private String telefone;
     private LocalDate dataNascimento;
     private Endereco endereco;
+    private Empresa empresa;
 
     public Cliente() {
     }
 
-    public Cliente(long id, String cpf, String nomeCompleto, String telefone, LocalDate dataNascimento, Endereco endereco) {
+    public Cliente(long id, String nome, String cpf, String telefone, LocalDate dataNascimento, Endereco endereco, Empresa empresa) {
         this.id = id;
+        this.nome = nome;
         this.cpf = cpf;
-        this.nomeCompleto = nomeCompleto;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
         this.endereco = endereco;
+        this.empresa = empresa;
     }
 
     public long getId() {
@@ -30,20 +32,20 @@ public class Cliente {
         this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
     }
 
     public String getTelefone() {
@@ -68,5 +70,13 @@ public class Cliente {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

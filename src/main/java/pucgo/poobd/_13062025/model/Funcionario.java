@@ -6,12 +6,12 @@ public abstract class Funcionario {
     private String cpf;
     private String telefone;
     private Endereco endereco;
-    private long empresa;
+    private Empresa empresa;
 
     public Funcionario() {
     }
 
-    public Funcionario(long id, String nome, String cpf, String telefone, Endereco endereco, long empresa) {
+    public Funcionario(long id, String nome, String cpf, String telefone, Endereco endereco, Empresa empresa) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -72,11 +72,11 @@ public abstract class Funcionario {
         this.endereco = endereco;
     }
 
-    public long getEmpresa() {
+    public Empresa getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(long empresa) {
+    public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
 }

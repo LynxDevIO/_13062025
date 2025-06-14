@@ -1,37 +1,55 @@
 package pucgo.poobd._13062025.dao;
 
-import pucgo.poobd._13062025.database.DatabaseFactory;
-import pucgo.poobd._13062025.model.ItemPedido;
-import pucgo.poobd._13062025.model.Pedido;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import pucgo.poobd._13062025.database.DatabaseFactory;
+import pucgo.poobd._13062025.model.Cliente;
+import pucgo.poobd._13062025.model.Empresa;
+import pucgo.poobd._13062025.model.FormaPagamento;
+import pucgo.poobd._13062025.model.ItemPedido;
+import pucgo.poobd._13062025.model.Pedido;
+import pucgo.poobd._13062025.model.Vendedor;
+
 public class PedidoDAO {
     private final Connection conn;
+    private final EmpresaDAO empresaDAO;
+    private final VendedorDAO vendedorDAO;
+    private final ClienteDAO clienteDAO;
+    private final FormaPagamentoDAO formaPagamentoDAO;
+    private final ItemPedidoDAO itemPedidoDAO;
 
     public PedidoDAO() throws SQLException {
         this.conn = DatabaseFactory.getConnection();
+        this.empresaDAO = new EmpresaDAO();
+        this.vendedorDAO = new VendedorDAO();
+        this.clienteDAO = new ClienteDAO();
+        this.formaPagamentoDAO = new FormaPagamentoDAO();
+        this.itemPedidoDAO = new ItemPedidoDAO();
     }
 
     public void inicializar() {
         try(Statement st = conn.createStatement()) {
             String sql = """
-                    create table pedidos (
+                    create table pedido (
                         id integer primary key autoincrement,
-                        empresa integer not null,
-                        vendedor integer not null,
-                        cliente integer not null,
-                        forma_de_pagamento integer not null,
+                        empresa_id integer,
+                        vendedor_id integer,
+                        cliente_id integer,
                         descricao text,
-                        pedido_aprovado boolean default false,
-                        valor_total real not null,
-                        foreign key (empresa) references empresa (id),
-                        foreign key (vendedor) references vendedor (id),
-                        foreign key (cliente) references cliente (id),
-                        foreign key (forma_de_pagamento) references forma_de_pagamento (id)
+                        aprovado boolean,
+                        forma_pagamento_id integer,
+                        valor_total real,
+                        foreign key (empresa_id) references empresa(id),
+                        foreign key (vendedor_id) references vendedor(id),
+                        foreign key (cliente_id) references cliente(id),
+                        foreign key (forma_pagamento_id) references forma_pagamento(id)
                     )
                     """;
 
@@ -41,130 +59,135 @@ public class PedidoDAO {
         }
     }
 
-    public void criar() {
+    public void criar(Pedido pedido) throws SQLException {
         String sql = """
-                insert into pedidos (
-                    
-                )
-                values (
-                    
-                )
+                insert into pedido (empresa_id, vendedor_id, cliente_id, descricao, aprovado, forma_pagamento_id, valor_total)
+                values (?, ?, ?, ?, ?, ?, ?)
                 """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            //ps.setLong();
-            // todo
-            ps.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setLong(1, pedido.getEmpresa().getId());
+            ps.setLong(2, pedido.getVendedor().getId());
+            ps.setLong(3, pedido.getCliente().getId());
+            ps.setString(4, pedido.getDescricao());
+            ps.setBoolean(5, pedido.isAprovado());
+            ps.setLong(6, pedido.getFormaPagamento().getId());
+            ps.setDouble(7, pedido.getValorTotal());
 
-    public Optional<Pedido> obterPorId(long id) {
-        Optional<Pedido> pedidoOpt = Optional.empty();
-        String sql = """
-                select * produtos where id = ?
-                """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
+            ps.executeUpdate();
 
-            ResultSet rs = ps.executeQuery(sql);
-            if (rs != null) {
-                ItemPedidoDAO itemPedidoDAO = new ItemPedidoDAO();
-                List<ItemPedido> itens = itemPedidoDAO.obterTodosPorIdPedido(long idPedido);
-
-                Pedido pedido = new Pedido(
-                        rs.getLong(0),
-                        rs.getLong(1),
-                        rs.getLong(2),
-                        rs.getLong(3),
-                        rs.getString(4),
-                        rs.getBoolean(5),
-                        itens,
-                        rs.getLong(6),
-                        rs.getDouble(7)
-                );
-                pedidoOpt = Optional.of(pedido);
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    pedido.setId(generatedKeys.getLong(1));
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return pedidoOpt;
+            for (ItemPedido item : pedido.getItens()) {
+                item.setPedido(pedido);
+                itemPedidoDAO.criar(item);
+            }
+        }
     }
 
-    public List<Pedido> obterTodos() {
+    public List<Pedido> obterTodos() throws SQLException {
         List<Pedido> pedidos = new ArrayList<>();
-
-        String sql = """
-                select * from pedidos
-                """;
-
+        String sql = "select * from pedido";
         try (Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
-                ItemPedidoDAO itemPedidoDAO = new ItemPedidoDAO();
-                List<ItemPedido> itens = itemPedidoDAO.obterTodosPorIdPedido(long idPedido);
-
-                Pedido pedido = new Pedido(
-                        rs.getLong(0),
-                        rs.getLong(1),
-                        rs.getLong(2),
-                        rs.getLong(3),
-                        rs.getString(4),
-                        rs.getBoolean(5),
-                        itens,
-                        rs.getLong(6),
-                        rs.getDouble(7)
-                );
-
-                pedidos.add(pedido);
+                Optional<Empresa> empresaOpt = empresaDAO.obterPorId(rs.getLong("empresa_id"));
+                Optional<Vendedor> vendedorOpt = vendedorDAO.obterPorId(rs.getLong("vendedor_id"));
+                Optional<Cliente> clienteOpt = clienteDAO.obterPorId(rs.getLong("cliente_id"));
+                Optional<FormaPagamento> formaPagamentoOpt = formaPagamentoDAO.obterPorId(rs.getLong("forma_pagamento_id"));
+                if (empresaOpt.isPresent() && vendedorOpt.isPresent() && clienteOpt.isPresent() && formaPagamentoOpt.isPresent()) {
+                    Pedido pedido = new Pedido();
+                    pedido.setId(rs.getLong("id"));
+                    pedido.setEmpresa(empresaOpt.get());
+                    pedido.setVendedor(vendedorOpt.get());
+                    pedido.setCliente(clienteOpt.get());
+                    pedido.setDescricao(rs.getString("descricao"));
+                    pedido.setAprovado(rs.getBoolean("aprovado"));
+                    pedido.setFormaPagamento(formaPagamentoOpt.get());
+                    pedido.setValorTotal(rs.getDouble("valor_total"));
+                    pedido.setItens(itemPedidoDAO.obterTodosPorIdPedido(pedido.getId()));
+                    pedidos.add(pedido);
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return pedidos;
     }
 
-    public void atualizarPorId(long id, Pedido pedido) {
+    public Optional<Pedido> obterPorId(long id) throws SQLException {
+        String sql = "select * from pedido where id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Optional<Empresa> empresaOpt = empresaDAO.obterPorId(rs.getLong("empresa_id"));
+                Optional<Vendedor> vendedorOpt = vendedorDAO.obterPorId(rs.getLong("vendedor_id"));
+                Optional<Cliente> clienteOpt = clienteDAO.obterPorId(rs.getLong("cliente_id"));
+                Optional<FormaPagamento> formaPagamentoOpt = formaPagamentoDAO.obterPorId(rs.getLong("forma_pagamento_id"));
+                if (empresaOpt.isPresent() && vendedorOpt.isPresent() && clienteOpt.isPresent() && formaPagamentoOpt.isPresent()) {
+                    Pedido pedido = new Pedido();
+                    pedido.setId(rs.getLong("id"));
+                    pedido.setEmpresa(empresaOpt.get());
+                    pedido.setVendedor(vendedorOpt.get());
+                    pedido.setCliente(clienteOpt.get());
+                    pedido.setDescricao(rs.getString("descricao"));
+                    pedido.setAprovado(rs.getBoolean("aprovado"));
+                    pedido.setFormaPagamento(formaPagamentoOpt.get());
+                    pedido.setValorTotal(rs.getDouble("valor_total"));
+                    pedido.setItens(itemPedidoDAO.obterTodosPorIdPedido(pedido.getId()));
+                    return Optional.of(pedido);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    public void atualizarPorId(long id, Pedido pedido) throws SQLException {
         String sql = """
-                update pedidos
-                set empresa = ?,
-                set vendedor = ?,
-                set cliente = ?,
-                set forma_de_pagamento = ?,
-                set descricao = ?,
-                set pedido_aprovado = ?,
-                set valor_total = ?,
+                update pedido
+                set empresa_id = ?,
+                    vendedor_id = ?,
+                    cliente_id = ?,
+                    descricao = ?,
+                    aprovado = ?,
+                    forma_pagamento_id = ?,
+                    valor_total = ?
                 where id = ?
                 """;
-
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, pedido.getEmpresa());
-            ps.setLong(2, pedido.getVendedor());
-            ps.setLong(3, pedido.getCliente());
-            ps.setLong(4, pedido.getFormaPagamento());
+            ps.setLong(1, pedido.getEmpresa().getId());
+            ps.setLong(2, pedido.getVendedor().getId());
+            ps.setLong(3, pedido.getCliente().getId());
+            ps.setString(4, pedido.getDescricao());
             ps.setBoolean(5, pedido.isAprovado());
-            ps.setDouble(6, pedido.getValorTotal());
+            ps.setLong(6, pedido.getFormaPagamento().getId());
+            ps.setDouble(7, pedido.getValorTotal());
+            ps.setLong(8, id);
 
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            ps.executeUpdate();
+
+            List<ItemPedido> itensAntigos = itemPedidoDAO.obterTodosPorIdPedido(id);
+            for (ItemPedido item : itensAntigos) {
+                itemPedidoDAO.deletarPorId(item.getId());
+            }
+
+            for (ItemPedido item : pedido.getItens()) {
+                item.setPedido(pedido);
+                itemPedidoDAO.criar(item);
+            }
         }
     }
 
-    public void deletarPorId(long id) {
+    public void deletarPorId(long id) throws SQLException {
         String sql = """
-                delete from pedidos
+                delete from pedido
                 where id = ?
                 """;
-
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            ps.executeUpdate();
         }
     }
 }

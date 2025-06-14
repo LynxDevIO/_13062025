@@ -3,6 +3,7 @@ package pucgo.poobd._13062025.model;
 public class Subcategoria {
     private long id;
     private String descricao;
+    private Categoria categoria;
 
     public Subcategoria() {
     }
@@ -10,6 +11,12 @@ public class Subcategoria {
     public Subcategoria(long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
+    }
+
+    public Subcategoria(long id, String descricao, Categoria categoria) {
+        this.id = id;
+        this.descricao = descricao;
+        this.categoria = categoria;
     }
 
     public long getId() {
@@ -26,5 +33,13 @@ public class Subcategoria {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
