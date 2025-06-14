@@ -4,19 +4,19 @@ import java.util.List;
 
 public class Pedido {
     private long id;
-    private long empresa;
-    private long vendedor;
-    private long cliente;
+    private Empresa empresa;
+    private Vendedor vendedor;
+    private Cliente cliente;
     private String descricao;
     private boolean aprovado;
     private List<ItemPedido> itens;
-    private long formaPagamento;
+    private FormaPagamento formaPagamento;
     private double valorTotal;
 
     public Pedido() {
     }
 
-    public Pedido(long id, long empresa, long vendedor, long cliente, String descricao, boolean aprovado, List<ItemPedido> itens, long formaPagamento, double valorTotal) {
+    public Pedido(long id, Empresa empresa, Vendedor vendedor, Cliente cliente, String descricao, boolean aprovado, List<ItemPedido> itens, FormaPagamento formaPagamento, double valorTotal) {
         this.id = id;
         this.empresa = empresa;
         this.vendedor = vendedor;
@@ -36,27 +36,27 @@ public class Pedido {
         this.id = id;
     }
 
-    public long getEmpresa() {
+    public Empresa getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(long empresa) {
+    public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
 
-    public long getVendedor() {
+    public Vendedor getVendedor() {
         return vendedor;
     }
 
-    public void setVendedor(long vendedor) {
+    public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
     }
 
-    public long getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(long cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
@@ -84,11 +84,11 @@ public class Pedido {
         this.itens = itens;
     }
 
-    public long getFormaPagamento() {
+    public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(long formaPagamento) {
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 
