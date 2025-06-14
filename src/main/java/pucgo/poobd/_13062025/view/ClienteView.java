@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.util.Optional;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import pucgo.poobd._13062025.dao.EnderecoDAO;
 import pucgo.poobd._13062025.model.Cliente;
+import pucgo.poobd._13062025.model.Endereco;
 
 public class ClienteView {
     public static Optional<Cliente> showDialog(Connection conn) {
@@ -54,6 +57,31 @@ public class ClienteView {
                 result.setNome(nomeField.getText());
                 result.setCpf(cpfField.getText());
                 result.setTelefone(telefoneField.getText());
+
+                // Criar ou editar endereço
+                Optional<Endereco> enderecoOpt = EnderecoView.showDialog(conn, result.getEndereco());
+                if (enderecoOpt.isPresent()) {
+                    Endereco endereco = enderecoOpt.get();
+                    try {
+                        EnderecoDAO enderecoDAO = new EnderecoDAO(conn);
+                        if (endereco.getId() == 0) {
+                            enderecoDAO.criar(endereco);
+                        } else {
+                            enderecoDAO.atualizarPorId(endereco.getId(), endereco);
+                        }
+                        result.setEndereco(endereco);
+                    } catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Erro");
+                        alert.setHeaderText("Erro ao salvar endereço");
+                        alert.setContentText("Ocorreu um erro ao salvar o endereço: " + e.getMessage());
+                        alert.showAndWait();
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+
                 return result;
             }
             return null;

@@ -14,8 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import pucgo.poobd._13062025.dao.EmpresaDAO;
+import pucgo.poobd._13062025.dao.EnderecoDAO;
 import pucgo.poobd._13062025.dao.SupervisorDAO;
 import pucgo.poobd._13062025.model.Empresa;
+import pucgo.poobd._13062025.model.Endereco;
 import pucgo.poobd._13062025.model.Supervisor;
 import pucgo.poobd._13062025.model.Vendedor;
 
@@ -86,6 +88,31 @@ public class VendedorView {
                 result.setTelefone(telefoneField.getText());
                 result.setEmpresa(empresaComboBox.getValue());
                 result.setSupervisor(supervisorComboBox.getValue());
+
+                // Criar ou editar endereço
+                Optional<Endereco> enderecoOpt = EnderecoView.showDialog(conn, result.getEndereco());
+                if (enderecoOpt.isPresent()) {
+                    Endereco endereco = enderecoOpt.get();
+                    try {
+                        EnderecoDAO enderecoDAO = new EnderecoDAO(conn);
+                        if (endereco.getId() == 0) {
+                            enderecoDAO.criar(endereco);
+                        } else {
+                            enderecoDAO.atualizarPorId(endereco.getId(), endereco);
+                        }
+                        result.setEndereco(endereco);
+                    } catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Erro");
+                        alert.setHeaderText("Erro ao salvar endereço");
+                        alert.setContentText("Ocorreu um erro ao salvar o endereço: " + e.getMessage());
+                        alert.showAndWait();
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+
                 return result;
             }
             return null;
